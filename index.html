@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        /* --- 1. GLOBAL SETTINGS --- */
+/* --- 1. GLOBAL RESET & THEME --- */
+:root {
+    --obsidian-blue: #111827;
+    --deep-gray: #1F2937;
+    --neon-mint: #2DD4BF;
+    --pure-frost: #FFFFFF;
+    --muted-zinc: #A1A1AA;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Prevents sticky header from covering titles */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--obsidian-blue);
+    color: var(--pure-frost);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* --- 2. STICKY HEADER & NAV BAR --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5%;
+    background-color: var(--deep-gray);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.header__photo {
+    display: flex;
+    align-items: center;
+}
+
+.header__photo img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 12px;
+    border: 2px solid var(--neon-mint);
+}
+
+.header__photo h1 {
+    font-size: 1.2rem;
+    letter-spacing: -0.02em;
+}
+
+/* Navigation Buttons Fixes */
+.nav-container {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 50px; /* STANDARD BASE SIZE - Fixes 'Large Contact' bug */
+    height: 50px;
+    background: var(--pure-frost);
+    border-radius: 50px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.nav-icon {
+    min-width: 50px; /* Fixed anchor for icons */
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: var(--obsidian-blue);
+}
+
+.nav-btn span {
+    flex: 1;
+    text-align: center;
+    padding-right: 15px;
+    font-weight: 700;
+    color: var(--obsidian-blue);
+    opacity: 0;
+    white-space: nowrap;
+    transition: opacity 0.3s;
+}
+
+.nav-btn:hover {
+    width: 160px; /* Horizontal Pill Expansion */
+    background: var(--neon-mint);
+}
+
+.nav-btn:hover span {
+    opacity: 1;
+    color: var(--pure-frost);
+}
+
+.nav-btn:hover .nav-icon {
+    color: var(--pure-frost);
+}
+
+/* --- 3. HERO & TYPING SYSTEM --- */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.hero img {
+    width: 250px !important;
+    height: 250px !important;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #27272A;
+    box-shadow: 0 0 30px rgba(45, 212, 191, 0.2);
+    transition: all 0.3s ease;
+}
+
+.hero img:hover {
+    transform: scale(1.05);
+    border-color: var(--neon-mint);
+    box-shadow: 0 0 50px rgba(45, 212, 191, 0.45);
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin: 25px 0 10px;
+}
+
+.compact-container {
+    font-family: 'Courier New', monospace;
+    font-size: 1.4rem;
+    color: var(--muted-zinc);
+    font-weight: bold;
+    line-height: 2;
+}
+
+.cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.2rem;
+    background-color: var(--pure-frost);
+    margin-left: 4px;
+    animation: blink 0.8s infinite;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+
+/* --- 4. SECTIONS (ABOUT & TIMELINE) --- */
+section {
+    padding: 80px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: var(--neon-mint);
+    font-size: 2rem;
+    margin-bottom: 30px;
+    border-left: 5px solid var(--neon-mint);
+    padding-left: 15px;
+    text-transform: uppercase;
+}
+
+.education-timeline {
+    border-left: 2px solid var(--deep-gray);
+    margin-left: 10px;
+    padding-left: 35px;
+}
+
+.education-item {
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.education-item .dot {
+    position: absolute;
+    left: -46px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--neon-mint);
+    border: 4px solid var(--obsidian-blue);
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(45, 212, 191, 0.4);
+}
+
+/* --- 5. PROJECTS GRID --- */
+.projects { max-width: 1100px; }
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.project-card {
+    background: var(--deep-gray);
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 30px;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--neon-mint);
+}
+
+.project-tech span {
+    background: var(--obsidian-blue);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    border: 1px solid var(--neon-mint);
+}
+
+/* --- 6. CERTIFICATION TABLE --- */
+.cert-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--deep-gray);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.cert-table th, .cert-table td {
+    padding: 18px;
+    border-bottom: 1px solid #374151;
+}
+
+.cert-table th {
+    background: #111;
+    color: var(--neon-mint);
+    text-transform: uppercase;
+}
+
+/* --- 7. CONTACT & SOCIALS --- */
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 15px;
+    background: var(--deep-gray);
+    border: 1px solid #374151;
+    color: var(--pure-frost);
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.form-group input:focus { border-color: var(--neon-mint); outline: none; }
+
+.social-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 60px 0;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    background: #fff;
+    border-radius: 50px;
+    overflow: hidden;
+    transition: width 0.3s ease;
+}
+
+.social-btn:hover { width: 180px; }
+
+/* Social Brand Colors */
+.youtube:hover { background: #FF0000; }
+.telegram:hover { background: #0088cc; }
+.instagram:hover { background: #E4405F; }
+.linkedin:hover { background: #0077B5; }
+
+/* --- 8. MOBILE OPTIMIZATION --- */
+@media (max-width: 768px) {
+    .header { flex-direction: column; gap: 15px; }
+    .contact-container { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.2rem; }
+}
+/* --- Optimized About Section --- */
+.about {
+    padding: 100px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.about h2, .about h3 {
+    color: #2DD4BF; /* Neon Mint */
+    font-size: 2.2rem; /* Matches Certificates size */
+    text-transform: uppercase; /* Forces all-caps look */
+    letter-spacing: 0.1em;
+    border-left: 8px solid #2DD4BF; /* Thick vertical line from reference */
+    padding-left: 25px;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.about-text {
+    color: #FFFFFF; /* High-contrast white text */
+    font-size: 1.2rem;
+    line-height: 2.4; /* Optimized spacing for no-fullstop lines [cite: 2026-03-15] */
+    margin-bottom: 40px;
+}
+/* --- About Section: Identity Match --- */
+.about {
+    padding: 100px 20px;
+    max-width: 1000px; /* Aligned with Certificate table width */
+    margin: 0 auto;
+}
+
+.about h2, .about h3 {
+    color: #2DD4BF; /* Neon Mint accent */
+    font-size: 2.2rem; /* Matches Certificates header scale */
+    text-transform: uppercase; /* EXACT MATCH: All-caps transformation */
+    letter-spacing: 0.1em;
+    
+    /* EXACT MATCH: Heavy left border from reference */
+    border-left: 10px solid #2DD4BF; 
+    padding-left: 25px;
+    margin-bottom: 35px;
+}
+
+.about-text {
+    color: #FFFFFF; /* High-contrast white text */
+    font-size: 1.15rem;
+    line-height: 2.5; /* Increased spacing for no-punctuation clarity [cite: 2026-03-15] */
+    margin-bottom: 45px;
+    font-weight: 400;
+}
+/* --- High-Authority Submit Button [cite: 2026-03-15] --- */
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: #2DD4BF; /* Neon Mint */
+    color: #111827; /* Obsidian Blue */
+    border: none;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-transform: uppercase; /* Identity match to Certificates */
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-decoration: none !important; /* Forces no underline [cite: 2026-03-15] */
+}
+
+.submit-btn:hover {
+    background-color: #5EEAD4;
+    transform: translateY(-5px); /* Professional pop effect */
+    box-shadow: 0 12px 24px rgba(45, 212, 191, 0.4); /* Neon Glow */
+}
+
+.submit-btn:active {
+    transform: translateY(-2px) scale(0.98); /* Tactile feedback */
+    box-shadow: 0 5px 10px rgba(45, 212, 191, 0.2);
+}
+.hero-typing-container {
+    font-family: 'Courier New', Courier, monospace; /* Exact terminal match */
+    background-color: #111827; /* Obsidian Blue consistency */
+    color: #A1A1AA; /* Muted zinc color */
+    font-size: 1.3rem;
+    line-height: 2.8; 
+    text-align: center;
+    width: 100%;
+    white-space: pre-wrap; /* CRITICAL: Allows \n to create new lines */
+    font-weight: bold;
+}
+
+.cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.2rem;
+    background-color: #A1A1AA;
+    margin-left: 4px;
+    animation: blink 0.8s infinite;
+    vertical-align: middle;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+/* --- Vertical Gap Fix [cite: 2026-03-15] --- */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 100px 20px 20px 20px; /* Reduced bottom padding from 100px to 20px */
+}
+
+.hero-typing-container {
+    margin-top: 20px;
+    margin-bottom: 0; /* Ensures no extra margin pushes the next section down */
+    width: 100%;
+}
+
+section {
+    padding: 40px 20px 80px 20px; /* Reduced top padding from 80px to 40px */
+    max-width: 900px;
+    margin: 0 auto;
+}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header__photo and text">
+            <img src="WhatsApp Image 2026-04-03 at 1.08.35 PM.jpeg" alt="Khushluck Singh">
+            <h1>Khushluck Singh</h1>
+        </div>
+        <div class="nav">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<nav class="nav-container">
+  <a href="#home" class="nav-btn home">
+    <div class="nav-icon"><i class="fa-solid fa-house"></i></div>
+    <span>Home</span>
+  </a>
+
+  <a href="#about" class="nav-btn info">
+    <div class="nav-icon"><i class="fa-solid fa-circle-info"></i></div>
+    <span>About</span>
+  </a>
+
+  <a href="#certification" class="nav-btn info">
+    <div class="nav-icon"><i class="fa-solid fa-certificate"></i></div>
+    <span>Certificates</span>
+  </a>
+
+  <a href="#education" class="nav-btn info">
+    <div class="nav-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+    <span>Education</span>
+  </a>
+
+  <a href="#projects" class="nav-btn info">
+    <div class="nav-icon"><i class="fa-solid fa-code"></i></div>
+    <span>Projects</span>
+  </a>
+
+  <a href="#contact" class="nav-btn contact">
+    <div class="nav-icon"><i class="fa-solid fa-address-book"></i></div>
+    <span>Contact</span>
+  </a>
+</nav>
+        </div>
+    </header>
+    <div id="home" class="hero">
+        <img src="wmremove-transformed (1).png" alt="Khushluck Singh" style="width: 100%; height: auto;">
+        <h1>Khushluck Singh</h1>
+        <p>I am:</p>
+        <div class="hero-typing-container">
+    <span id="typing-text"></span><span class="cursor"></span>
+</div>
+</div>
+    </div>
+    <div id="about" class="about">
+        <h2>About Me</h2>
+        <p>I am a passionate and dedicated individual with a strong background in technology and innovation. I have a keen interest in artificial intelligence and its applications in various fields. My age is 16, and I am constantly seeking new opportunities to grow and contribute to the field of technology. At this age i run a youtube channel focused on AI and technology, named NeuralSyntax.</p>
+        <h3>About NeuralSyntax</h3>
+        <p>I launched NeuralSyntax in November 2025 to make AI and technology education simple and accessible to everyone. My goal is to break down complex concepts so that anyone, regardless of their background, can understand and learn. I created this channel to share knowledge and help others explore the exciting world of technology.</p>
+    </div>
+    <section id="certification">
+    <div class="certification">
+        <h2>Certificates</h2>
+        <p>I have completed several courses and certifications that demonstrate my commitment to continuous learning. Below are the certifications I have earned, along with the course names and issuing organizations:</p>
+        
+        <table class="cert-table">
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Issuing Organization</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ChatGPT Mastery 2025</td>
+                    <td>SeekheIndia (Anjni Computer Education)</td>
+                    <td>2025</td>
+                </tr>
+                <tr>
+                    <td>Prompt Engineering with ChatGPT</td>
+                    <td>SeekheIndia</td>
+                    <td>2025</td>
+                </tr>
+                <tr>
+                    <td>Tailwind CSS: Style Apps Like a Design Guru</td>
+                    <td>DevTown (Microsoft Student Chapter - MSIT)</td>
+                    <td>18 Jul 2025</td>
+                </tr>
+                <tr>
+                    <td>Tailwind CSS: Style Apps Like a Design Guru</td>
+                    <td>DevTown (Google Developer Groups - VIT-AP)</td>
+                    <td>18 Jul 2025 </td>
+                </tr>
+                <tr>
+                    <td>Tailwind CSS: Style Apps Like a Design Guru</td>
+                    <td>DevTown (MSC, MSIT Chapter) </td>
+                    <td>16 Jul 2025</td>
+                </tr>
+                <tr>
+                    <td>Python Zero to Hero</td>
+                    <td>DevTown (Google Developer Groups - VIT-AP)</td>
+                    <td>14 Jun 2025</td>
+                </tr>
+                <tr>
+                    <td>Python Zero to Hero</td>
+                    <td>DevTown (Microsoft Student Chapter - MSIT)</td>
+                    <td>14 Jun 2025</td>
+                </tr>
+                <tr>
+                    <td>Python Zero to Hero</td>
+                    <td>DevTown (MSC, MSIT Chapter)</td>
+                    <td>12 Jun 2025</td>
+                </tr>
+                <tr>
+                    <td>Certificate of Appreciation</td>
+                    <td>DevTown</td>
+                    <td>11 Jul 2025</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<section id="education" class="education">
+    <h2>Education</h2>
+    <div class="education-timeline">
+        <div class="education-item">
+            <div class="dot"></div>
+            <div class="content">
+                <h3>Class 12 - Humanities</h3>
+                <span class="school-name">Prudence School, New Delhi</span>
+                <span class="date">April 2026 – Present</span>
+                <p>Focusing on the Humanities stream while scaling <strong>NeuralSyntax</strong> and developing AI-driven educational content.</p>
+            </div>
+        </div>
+
+        <div class="education-item">
+            <div class="dot"></div>
+            <div class="content">
+                <h3>Class 11 - Humanities</h3>
+                <span class="school-name">Prudence School, New Delhi</span>
+                <span class="date">April 2025 – March 2026</span>
+                <p>Successfully cleared final examinations in January 2026. Gained foundational knowledge in core Humanities subjects alongside technical bootcamps.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="projects" class="projects">
+    <h2>Projects</h2>
+    <div class="project-grid">
+        <div class="project-card">
+            <div class="project-content">
+                <span class="project-tag">Full-Stack Desktop</span>
+                <h3>Task & Notes Manager</h3>
+                <p>A GUI application using SQLite3 for persistent data storage. Features include multi-threading for a real-time clock, dynamic task status toggling, and data exporting.</p>
+                <div class="project-tech">
+                    <span>Python (Tkinter)</span>
+                    <span>SQLite3</span>
+                    <span>Threading</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-content">
+                <span class="project-tag">Security & File I/O</span>
+                <h3>Encrypted Diary System</h3>
+                <p>Secure logging system featuring custom character encryption/decryption logic. Includes automated backup systems and search functionality for diary entries.</p>
+                <div class="project-tech">
+                    <span>Python</span>
+                    <span>Cryptography Logic</span>
+                    <span>File Handling</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-content">
+                <span class="project-tag">Data Persistence</span>
+                <h3>JSON Contact Manager</h3>
+                <p>A contact management system using JSON for local storage. Implements full CRUD (Create, Read, Update, Delete) operations with search-by-name filtering.</p>
+                <div class="project-tech">
+                    <span>Python</span>
+                    <span>JSON Data</span>
+                    <span>GUI Design</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-content">
+                <span class="project-tag">Automation</span>
+                <h3>Student Report Generator</h3>
+                <p>Logic-driven tool for calculating grades and percentages. Processes multi-subject data and exports professional report cards as .txt files[cite: 10].</p>
+                <div class="project-tech">
+                    <span>Python</span>
+                    <span>File Export</span>
+                    <span>Data Processing</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="contact" class="contact">
+    <h2>Contact</h2>
+    <div class="contact-container">
+        <div class="contact-info">
+            <h3>Let's Collaborate</h3>
+            <p>Available for inquiries regarding AI content strategy, coding projects, or educational collaborations.</p>
+            <ul class="contact-details">
+                <li><strong>Role:</strong> Lead Content Architect, @NeuralSyntax</li>
+                <li><strong>Location:</strong> New Delhi, India</li>
+                <li><strong>Education:</strong> Class 12 Humanities Student</li>
+            </ul>
+        </div>
+
+        <form class="contact-form">
+            <div class="form-group">
+                <input type="text" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+                <textarea placeholder="Your Message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </div>
+</section>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<div class="social-wrapper">
+  <a href="https://www.youtube.com/@NeuralSyntax-y1m" target="_blank" class="social-btn youtube">
+    <div class="icon"><i class="fa-brands fa-youtube"></i></div>
+    <span>YouTube</span>
+  </a>
+
+  <a href="https://t.me/neuralsyntax1" target="_blank" class="social-btn telegram">
+    <div class="icon"><i class="fa-brands fa-telegram"></i></div>
+    <span>Telegram</span>
+  </a>
+
+  <a href="https://www.instagram.com/guddu.singh2023?igsh=MTBkeXlreTB2bWpobA==" target="_blank" class="social-btn instagram">
+    <div class="icon"><i class="fa-brands fa-instagram"></i></div>
+    <span>Instagram</span>
+  </a>
+
+  <a href="https://www.linkedin.com/in/khushluck-singh-0298493bb?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="social-btn linkedin">
+    <div class="icon"><i class="fa-brands fa-linkedin"></i></div>
+    <span>LinkedIn</span>
+  </a>
+</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const element = document.getElementById('typing-text');
+    if (!element) return;
+
+    const phrases = [
+        "1. 16 year old",
+        "2. Lead Content Architect of @NeuralSyntax",
+        "3. Scaling AI education through logic-driven code",
+        "4. high-growth content strategy"
+    ];
+
+    let phraseIndex = 0;
+    let charIndex = 0;
+
+    function typeEffect() {
+        if (phraseIndex < phrases.length) {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (charIndex < currentPhrase.length) {
+                element.textContent += currentPhrase.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeEffect, 50); // Typing speed
+            } else {
+                // Add newline unless it's the last phrase
+                if (phraseIndex < phrases.length - 1) {
+                    element.textContent += "\n";
+                }
+                phraseIndex++;
+                charIndex = 0;
+                setTimeout(typeEffect, 400); // Pause before next line
+            }
+        }
+    }
+
+    typeEffect();
+});
+    </script>
+</body>
+</html>
